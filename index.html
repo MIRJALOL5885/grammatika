@@ -2,9 +2,6 @@
 <html lang="uz"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Grammatika mashqi</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#667;--ac:#3b5bdb;--ok:#2b8a3e;--er:#c92a2a;--bd:#dde1ea}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2030;--tx:#e8ebf3;--mu:#9aa3b8;--ac:#748ffc;--ok:#69db7c;--er:#ff8787;--bd:#2d3450}}
@@ -117,7 +114,7 @@ const T0=[
 {n:"It’s time",lv:"B1",d:"Vaqt bo’ldi",
  f:["(+) darak|It’s time + to + V1|It’s time to go.","(+) kimdir uchun|It’s time + for + smb + to + V1|It’s time for Sam to read books.","(+) about time|It’s about time + for + smb + to + V1|It’s about time for us to stretch our legs."],
  r:["present → It is = It’s · past → It was = It’s"]},
-{n:"Present Perfect Continuous",lv:"B1",d:"Hozirgi tugallangan davomiy zamon",subj:1,
+{n:"Present Perfect Continuous",lv:"B1",d:"Hozirgi tugallangan davomli zamon",subj:1,
  f:["(+) darak|S + have/has + been + Ving|I’ve been working for 2 hours.","(−) inkor|S + have/has + not + been + Ving|I haven’t been working.","(?) savol|Have/Has + S + been + Ving?|Have you been waiting for me?"],
  u:["Ish-harakat o’tgan zamonda boshlanib hozirgacha davom qilib tugadi (tugamasligi ham mumkin), natijasi ko’rinadi|She has been cooking for 3 hours.","Alomat (am/is/are) → izohi Present Perfect Continuous|I am tired because I have been holding the chair for 2 hours."],
  r:["for — oraliq vaqt (2 hours, 3 days) · since — boshlangan vaqt (3 o’clock, Monday, 2020)","for / since = … dan beri","Natija: past ——→ present (o’tgandan hozirgacha davom etgan ish, natijasi hozir ko’rinadi)"],
@@ -284,7 +281,7 @@ function open(i){LEX="g";ti=T[i];ti.key="t"+ti.id;sess();$("tbs").classList.togg
   if(ok)s.sc++;s.rec[ok?"c":"w"]++;if(!ok)s.rec.x.push([s.i+1,strip(q.text),a,r.reason||"",r.fix||q.ex]);if(!H.includes(s.rec))H.push(s.rec);persist();
   show(p);$(p+"res").className="res "+(ok?"ok":"er");
   $(p+"res").innerHTML=(ok?"✅ To’g’ri!"+(p==="m"?`<div class="sub" style="font-weight:400">${ref}</div>`:""):`❌ Xato${r.reason?": "+esc(r.reason):""}${r.fix?`<div class="sub" style="font-weight:400">To’g’ri variant: ${esc(r.fix)}</div>`:""}<div class="sub" style="font-weight:400">${ref}</div>`)+(mq?WQ:"")+(p==="m"&&ok?tdiff(q,a):"");
-  if(r.loc&&p==="g")$(p+"res").innerHTML+=`<div class="sub" style="font-weight:400">ℹ️ Taxminiy tekshiruv (AI mavjud emas).</div>`;
+  if(r.loc&&p==="g")$(p+"res").innerHTML+=`<div class="sub" style="font-weight:400">⚠️ AI tekshiruv ishlamadi, taxminiy tekshiruv.</div>`;
   $(p+"res").innerHTML+=ptxt;saveProg();$(p+"nx").disabled=false};
 });
 /* ---------- aralash ---------- */
@@ -317,50 +314,45 @@ const ONL=()=>!!(ME&&ME.on&&navigator.onLine);const fmt=x=>Math.round(x*10)/10;
 const nk=n=>[...new TextEncoder().encode(n.toLowerCase().replace(/\s+/g," ").trim())].map(b=>b.toString(16).padStart(2,"0")).join("");
 const rnd=()=>{try{return [...crypto.getRandomValues(new Uint8Array(8))].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return String(Math.random()).slice(2)}};
 async function hashPw(pw,salt){try{const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:new TextEncoder().encode(salt),iterations:60000},k,256);return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){let h=5381;const t=salt+pw;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return"w"+(h>>>0).toString(16)}}
-let auth=null,LST=false;
-const FBC={apiKey:"AIzaSyB3Svbp_jbxy_GbeJ5tvp50MKarDYFyi8k",authDomain:"grammatika-5885.firebaseapp.com",projectId:"grammatika-5885",storageBucket:"grammatika-5885.firebasestorage.app",messagingSenderId:"651427383778",appId:"1:651427383778:web:a91e29789e385f0bf1d1bb"};
-async function conn(){try{if(!window.firebase)return false;if(!auth){firebase.initializeApp(FBC);auth=firebase.auth();DBS=firebase.firestore()}return true}catch(e){return false}}
-async function nkey(n){const b=await crypto.subtle.digest("SHA-1",new TextEncoder().encode(n.toLowerCase().replace(/\s+/g," ").trim()));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
-async function loadMe(u){UID=u.uid;const pd=DBS.collection("players").doc(UID),ps=await pd.get();if(!ps.exists)return false;const p=ps.data();ME={name:p.name,sc:+p.sc||0,c:+p.c||0,w:+p.w||0,att:p.att||{},on:true,rank:0,pd};return true}
+async function conn(){try{if(!window.claude)return false;DBS=await claude.use("db");const u=await claude.use("user");UID=u?await u.id():null;return!!(DBS&&UID)}catch(e){return false}}
 function saveMe(){clearTimeout(MT);MT=setTimeout(async()=>{try{if(ME&&ME.pd)await ME.pd.set({name:ME.name,sc:ME.sc,c:ME.c,w:ME.w,att:ME.att,ts:Date.now()})}catch(e){}},900)}
 function accHTML(){if(!ME)return"";return`<div class="card" style="padding:10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>👤 <b>${esc(ME.name)}</b>${ME.on?` · 🏆 ${ME.sc} ball${ME.rank?` · #${ME.rank}`:""}`:""}</span><button id="hx" style="padding:4px 10px">Chiqish</button></div>${ME.on?"":`<div class="sub" style="margin:4px 0 0">Offline/ballsiz rejim: ball hisoblanmaydi</div>`}</div>${ME.on?`<button class="tp" id="hrk"><b>🏆 Reyting</b><div class="sub" style="margin:0">Hamma o’yinchilar jadvali va o’rningiz</div></button>`:""}`}
-function showGate(msg){go("login");$("lg").innerHTML=`<div class="card"><h2>👤 Kirish</h2><div class="sub">Ism va parol yozing. Ism yangi bo’lsa, hisob yaratiladi. Bir marta kirsangiz, keyin so’ramaydi.</div><input id="ln" placeholder="Ism (2–20 belgi)" maxlength="20" autocomplete="off"><input id="lp" type="password" placeholder="Parol (kamida 6 belgi)" autocomplete="off"><div class="res er" id="lm">${msg||""}</div><button class="pri" id="ld" style="width:100%">✅ Done</button><div class="sub" style="margin-top:8px">Ball va reyting uchun internet kerak.</div></div>`;$("ld").onclick=doLogin;}
+function showGate(msg){go("login");$("lg").innerHTML=`<div class="card"><h2>👤 Kirish</h2><div class="sub">Ism va parol yozing. Ism yangi bo’lsa, hisob yaratiladi. Bir marta kirsangiz, keyin so’ramaydi.</div><input id="ln" placeholder="Ism (2–20 belgi)" maxlength="20" autocomplete="off"><input id="lp" type="password" placeholder="Parol (kamida 4 belgi)" autocomplete="off"><div class="res er" id="lm">${msg||""}</div><button class="pri" id="ld" style="width:100%">✅ Done</button><div class="sub" style="margin-top:8px">Ball va reyting uchun internet va Claude hisobi kerak.</div></div>`;$("ld").onclick=doLogin;}
 function enter(){GATE=true;renderHome();route();if(ME&&ME.on)refreshRank()}
 async function doLogin(){const nm=$("ln").value.trim().replace(/\s+/g," "),pw=$("lp").value,m=$("lm");
  if(!/^[\p{L}\p{N} ._-]{2,20}$/u.test(nm))return void(m.textContent="Ism 2–20 belgi bo’lsin (harf, raqam, bo’sh joy, . _ -).");
- if(pw.length<6)return void(m.textContent="Parol kamida 6 belgi bo’lsin.");
+ if(pw.length<4)return void(m.textContent="Parol kamida 4 belgi bo’lsin.");
  m.textContent="Tekshirilmoqda…";$("ld").disabled=true;
- try{if(!navigator.onLine||!(await conn())){m.textContent="Internet yo’q yoki Firebase yuklanmadi. Keyinroq urinib ko’ring.";return}
-  const email=(await nkey(nm))+"@grammatika.app";let cr;
-  try{cr=await auth.signInWithEmailAndPassword(email,pw)}
-  catch(e){const c=(e&&e.code)||"";
-   if(c==="auth/user-not-found"||c==="auth/invalid-credential"||c==="auth/invalid-login-credentials"){
-    try{cr=await auth.createUserWithEmailAndPassword(email,pw)}
-    catch(e2){if(e2.code==="auth/email-already-in-use"){m.textContent="Bu ism band yoki parol noto’g’ri.";return}throw e2}}
-   else if(c==="auth/wrong-password"){m.textContent="Parol noto’g’ri.";return}else throw e}
-  UID=cr.user.uid;const pd=DBS.collection("players").doc(UID),ps=await pd.get();
-  if(!ps.exists)await pd.set({name:nm,sc:0,c:0,w:0,att:{},ts:Date.now()});
-  if(!(await loadMe(cr.user))){m.textContent="Profilni o’qib bo’lmadi.";return}
-  try{localStorage.setItem(MK,JSON.stringify({uid:UID,name:ME.name}))}catch(e){}
-  enter()}
- catch(e){const c=(e&&e.code)||"";m.textContent=c==="auth/operation-not-allowed"?"Firebase’da Email/Password kirishi yoqilmagan.":c==="auth/weak-password"?"Parol kamida 6 belgi bo’lsin.":c==="permission-denied"||c==="auth/unauthorized-domain"?"Ruxsat yo’q: "+c:"Ulanib bo’lmadi: "+(c||(e&&e.message)||"noma’lum xato")}
+ try{if(!navigator.onLine||!(await conn())){m.textContent="Internet yoki hisob ulanishi yo’q. Keyinroq urinib ko’ring.";return}
+  const key=nk(nm),nd=DBS.doc("names/"+key),ad=DBS.collection("data/users/"+UID).doc("auth"),pd=DBS.collection("players").doc(UID);
+  const [ns,as,ps]=await Promise.all([nd.get(),ad.get(),pd.get()]);
+  if(ns.exists&&ns.data().uid!==UID){m.textContent="Bu ism band. Boshqa ism tanlang.";return}
+  if(as.exists){const a=as.data();if(a.key!==key){m.textContent=`Sizning hisobingiz “${a.name}” ismi bilan yaratilgan. O’sha ism bilan kiring.`;return}
+   if(await hashPw(pw,a.salt)!==a.ph){m.textContent="Parol noto’g’ri.";return}}
+  else{const salt=rnd();await ad.set({key,name:nm,salt,ph:await hashPw(pw,salt)});await nd.set({uid:UID,name:nm})}
+  const p=ps.exists?ps.data():{};ME={name:nm,sc:+p.sc||0,c:+p.c||0,w:+p.w||0,att:p.att||{},on:true,rank:0,pd};
+  if(!ps.exists||p.name!==nm)await pd.set({name:nm,sc:ME.sc,c:ME.c,w:ME.w,att:ME.att,ts:Date.now()});
+  try{localStorage.setItem(MK,JSON.stringify({uid:UID,name:nm}))}catch(e){}
+  enter()}catch(e){m.textContent=e&&e.code==="not_granted"?"Yozish huquqi yo’q: sahifa egasi sizni Contributor sifatida taklif qilishi kerak.":"Ulanib bo’lmadi. Keyinroq urinib ko’ring."}
  finally{if($("ld"))$("ld").disabled=false}}
-function logout(){try{localStorage.removeItem(MK)}catch(e){}ME=null;GATE=false;(auth?auth.signOut():Promise.resolve()).finally(()=>boot())}
+function logout(){try{localStorage.removeItem(MK)}catch(e){}ME=null;GATE=false;boot()}
+async function attach(sv){try{if(!navigator.onLine||!(await conn())||UID!==sv.uid)return false;const pd=DBS.collection("players").doc(UID),ps=await pd.get(),p=ps.exists?ps.data():{};
+ if(!ps.exists)return false;ME={name:sv.name,sc:+p.sc||0,c:+p.c||0,w:+p.w||0,att:p.att||{},on:true,rank:0,pd};return true}catch(e){return false}}
 async function lbGet(){const sn=await DBS.collection("players").get();const L=sn.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.sc-a.sc)||(b.c-a.c)||(a.ts-b.ts));const i=L.findIndex(x=>x.id===UID);if(ME&&i>=0)ME.rank=i+1;return L}
 async function refreshRank(){try{await lbGet();if(CUR==="home")renderHome()}catch(e){}}
 async function showRank(){go("rank");const R=$("rk");
  if(!ME||!ME.on){R.innerHTML=`<div class="card">Reyting faqat internet va hisob bilan kirganda ko’rinadi.</div>`;return}
  R.innerHTML=`<div class="card">Yuklanmoqda…</div>`;
  try{const L=await lbGet(),me=L.findIndex(x=>x.id===UID);
-  R.innerHTML=`<div class="card"><h2>🏆 Reyting</h2><div class="sub">${me>=0?`Siz <b>${me+1}-o’rindasiz</b> (${L.length} ishtirokchidan) · ${ME.sc} ball`:"Reytingda hali yo’qsiz"}</div><div class="sub">1 ta mavzuni 1-urinishda to’g’ri javob +1, 2-urinishda +0.5, 3 va undan keyin 0 ball; har xato −1 ball.</div><div class="sc"><table><tr><th>#</th><th>Ism</th><th>✅</th><th>❌</th><th>Ball</th></tr>${L.map((x,i)=>`<tr${x.id===UID?` style="font-weight:700;color:var(--ac)"`:""}><td>${i+1}</td><td>${esc(x.name||"?")}</td><td>${x.c||0}</td><td>${x.w||0}</td><td>${fmt(x.sc||0)}</td></tr>`).join("")}</table></div><button id="rf" style="margin-top:10px;width:100%">🔄 Yangilash</button></div>`;$("rf").onclick=showRank}
+  R.innerHTML=`<div class="card"><h2>🏆 Reyting</h2><div class="sub">${me>=0?`Siz <b>${me+1}-o’rindasiz</b> (${L.length} ishtirokchidan) · ${ME.sc} ball`:"Reytingda hali yo’qsiz"}</div><div class="sub">1-urinishda to’g’ri javob +1, 2-urinishda +0.5, 3 va undan keyin 0 ball; har xato −1 ball.</div><div class="sc"><table><tr><th>#</th><th>Ism</th><th>✅</th><th>❌</th><th>Ball</th></tr>${L.map((x,i)=>`<tr${x.id===UID?` style="font-weight:700;color:var(--ac)"`:""}><td>${i+1}</td><td>${esc(x.name||"?")}</td><td>${x.c||0}</td><td>${x.w||0}</td><td>${fmt(x.sc||0)}</td></tr>`).join("")}</table></div><button id="rf" style="margin-top:10px;width:100%">🔄 Yangilash</button></div>`;$("rf").onclick=showRank}
  catch(e){R.innerHTML=`<div class="card">Reytingni yuklab bo’lmadi.</div>`}}
 $("rkb").onclick=()=>nav("");
 async function boot(){showGate();let sv=null;try{sv=JSON.parse(localStorage.getItem(MK)||"null")}catch(e){}
- const guest=()=>{ME={name:sv?sv.name:"Mehmon",sc:0,c:0,w:0,att:{},on:false,rank:0};enter()};
- if(!navigator.onLine){guest();return}
- if(!(await conn())){guest();return}
- if(!LST){LST=true;auth.onAuthStateChanged(async u=>{if(!u||GATE&&ME&&ME.on)return;try{if(await loadMe(u))enter()}catch(e){}})}}
-window.addEventListener("online",async()=>{if(ME&&!ME.on&&await conn()&&auth.currentUser){try{if(await loadMe(auth.currentUser)){renderHome();refreshRank()}}catch(e){}}});
+ if(sv){if(!navigator.onLine){ME={name:sv.name,sc:0,c:0,w:0,att:{},on:false,rank:0};enter();return}
+  if(await attach(sv)){enter();return}
+  if(!navigator.onLine||!DBS||!UID){ME={name:sv.name,sc:0,c:0,w:0,att:{},on:false,rank:0};enter();return}}
+ const ok=navigator.onLine&&await conn();if(!ok){ME={name:sv?sv.name:"Mehmon",sc:0,c:0,w:0,att:{},on:false,rank:0};enter()}}
+window.addEventListener("online",async()=>{let sv=null;try{sv=JSON.parse(localStorage.getItem(MK)||"null")}catch(e){}if(sv&&ME&&!ME.on&&await attach(sv)){renderHome();if(ME.on)refreshRank()}});
 /* ---------- himoya ---------- */
 ["copy","cut","contextmenu","selectstart","dragstart"].forEach(e=>document.addEventListener(e,ev=>{const t=ev.target&&ev.target.nodeType===3?ev.target.parentElement:ev.target;if(!(t&&t.closest&&t.closest("input")))ev.preventDefault()}));
 let lb=0,tt=0;try{history.pushState({g:1},"")}catch(e){}
@@ -369,4 +361,49 @@ window.addEventListener("popstate",()=>{if(CUR!=="home")return;const n=Date.now(
  $("toast").classList.remove("hide");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.add("hide"),2000)});
 window.addEventListener("beforeunload",e=>{if(["g","s"].some(p=>S[p]&&S[p].q&&S[p].log&&S[p].log.length&&S[p].i<S[p].q.length)){e.preventDefault();e.returnValue=""}});
 window.addEventListener("hashchange",route);renderHome();initDb();boot();
-</script></main></body></html>
+</script></main><script>
+(function(){
+// Tartib mashqi uchun gaplar bazasi: har mavzuda 12 ta gap, har safar yangi 3 tasi tanlanadi.
+// Gap qo'shish: kerakli mavzu qatoriga "|" bilan yangi gap yozing.
+var P={
+"Present Simple":"She usually plays football.|My brother doesn’t eat meat.|Does he go to school every day?|I always drink tea in the morning.|They don’t watch TV on Sundays.|Do you often visit your grandmother?|The sun rises in the east.|My bus arrives at two o’clock.|He never eats fast food.|Does she live in Tashkent?|We sometimes play chess after school.|My father works in a bank.",
+"Present Continuous":"They are watching TV now.|I am not reading a book.|Is she cooking meal at the moment?|He is playing guitar now.|We are not sleeping at the moment.|Are you listening to me?|The children are running in the garden.|She is becoming kind.|It is getting colder these days.|Is your brother studying English now?|I am writing a letter at present.|They are not working today.",
+"Present Simple va Present Continuous farqi":"He plays football every day.|He is playing football now.|Do you usually drink tea?|I am drinking tea now.|She usually walks to school.|She is walking to school at the moment.|They don’t watch TV in the morning.|They aren’t watching TV at the moment.|Does he often read books?|Is he reading a book now?|We always have lunch at noon.|We are having lunch at the moment.",
+"Past Simple":"I played phone yesterday.|She didn’t eat meal.|Did you come to course yesterday?|We went to the park last week.|He didn’t do his homework yesterday.|Did they visit you last month?|I woke up and then I ate.|She bought a new phone two days ago.|I used to play football every day.|They didn’t come to the party.|Did she call you last night?|My father came home late yesterday.",
+"Future Simple":"She will go home.|I will not study tomorrow.|Will they come to the party?|I think he will win.|Probably she will come tomorrow.|We will not wait for you.|Will you help me tomorrow?|I will give back your money next Monday.|They will visit us next week.|Perhaps it will rain tomorrow.|He will not forget his promise.|Shall we go to the cinema?",
+"Future Simple Tense":"I will give back your money next Monday.|If you come today, we will go fishing.|Will you join us tomorrow?|When will you come?|I’ll do something tomorrow.|As soon as he arrives, we will start.|If it rains, we will stay at home.|After I finish, I will call you.|Before you leave, I will make some tea.|I will wait until you come.|Take an umbrella in case it rains.|If you overuse your phone, you shall be blind.",
+"Some / Any":"I have some apples.|I don’t have any money.|Would you like some tea?|Do you have any questions?|There are some books on the table.|She doesn’t have any friends here.|Can I have some water?|You can take any book.|Is there any milk in the fridge?|He bought some bread yesterday.|We don’t need any help.|Would you like some coffee?",
+"Past Continuous":"She was cooking meal at 2 p.m.|They were working the whole summer.|I was cooking meal when my brother watched TV.|He was sleeping at midnight.|We were not playing football at five.|Were you eating at that time?|I was reading a book the whole day.|She was learning English the whole summer.|I was working while my friends were playing volleyball.|As I was cooking meal, I burnt my finger.|They were drawing when we painted the wall.|He was crying at three o’clock.",
+"Going to":"We are going to have a lesson tomorrow.|I am not going to buy a car.|Are you going to study?|She is going to visit her aunt.|They are not going to come.|Is he going to cook dinner?|I am going to buy a new phone.|The car is going to have an accident.|We are going to watch a film tonight.|He is not going to play today.|Are they going to build a house?|It is going to rain soon.",
+"Present Perfect Simple":"I have cleaned my room.|She hasn’t read the book yet.|Have you ever cooked a meal?|He has bought a new phone.|They have just arrived.|I have already done my homework.|She has never driven a car.|We have taken two certificates so far.|Has he finished his work yet?|I have lived here since 2020.|They have studied English for two years.|It’s the second time I have seen this film.",
+"Can / Could / Be able to":"I can swim very well.|He could run fast as a child.|I was able to pass the exam.|She can’t come today.|Can you help me?|Could you tell me the time?|They couldn’t open the door.|I am able to speak three languages.|Can I take your order?|He wasn’t able to finish the work.|My sister can cook very well.|We could play outside when we were young.",
+"Have to / Have got to":"I have to go now.|She doesn’t have to cook today.|I’ve got to meet him at six.|Do you have to work tomorrow?|He has to wake up early.|We had to wait for an hour.|They don’t have to pay.|I will have to leave soon.|Does she have to wear a uniform?|You haven’t got to come.|I had to go to school yesterday.|She has got to finish this today.",
+"Must":"We must study hard.|You mustn’t cheat at the exam.|Tom must be at home.|I must call my mother.|You must not park here.|She must be very tired.|They must wear a helmet.|We must leave now.|He must have a good reason.|Students must come on time.|You mustn’t forget your keys.|I had to wait for the bus.",
+"Should / Had better / Ought to":"You should start your own business.|You had better not go there.|Residents ought to pass their taxes.|You should drink more water.|He shouldn’t eat so much sugar.|You had better take an umbrella.|Children ought to respect their parents.|We should help each other.|She should study harder.|You are supposed to be here at nine.|It’s important that you should learn English.|They shouldn’t be late.",
+"Future Continuous":"He will be sleeping at 8 tomorrow.|I will be working in the garden at 10.|Will you be waiting for me?|They will be playing football at five.|She will not be working tomorrow.|We will be travelling this time next week.|Will he be studying at nine?|I will be reading a book tonight.|At noon, I will be having lunch.|She will be watching TV at eight.|Will they be sleeping at midnight?|He won’t be driving tomorrow.",
+"May / Might":"I may fail at the exam.|He might come to the party.|May I take your order, please?|It may rain tomorrow.|She might be at home.|They may be repairing their house.|You may go out now.|I might help you later.|We may as well go home.|He may not know the answer.|You might have invited Tom to the party.|May I come in?",
+"Would / Used to":"I would eat something now.|He wouldn’t open the door.|If I had known, I would have come.|I would buy a car if I had money.|She would play outside every day as a child.|He said he would come.|I would have gone there.|Would you like some tea?|They would help us.|I used to play football every day.|She wouldn’t listen to anyone.|He would sleep late on Sundays.",
+"It’s time":"It’s time to go home.|It’s time for Sam to read books.|It’s about time to stretch our legs.|It’s time to wake up.|It’s time for us to leave.|It’s about time for you to study.|It’s time to start the lesson.|It’s time for her to go to bed.|It’s about time to cook dinner.|It’s time for them to say goodbye.|It’s time to make a decision.|It’s about time for him to apologize.",
+"Present Perfect Continuous":"She has been cooking for 3 hours.|I have been waiting for you since 3 o’clock.|Have you been working for two hours?|He has been sleeping for ten hours.|They haven’t been studying since morning.|I am tired because I have been holding the chair for 2 hours.|She has been learning English for two months.|Has he been waiting for you long?|We have been walking since two o’clock.|It has been raining all day.|I have been living here for 16 years.|They have been playing since noon.",
+"Past Perfect Simple":"I had finished my homework by 5 p.m.|After I had eaten, I went out.|I had hardly got home when it started to rain.|She had already left when I arrived.|By the time he came, we had eaten.|Had you seen him before?|They had not finished the work by noon.|He had never been abroad before.|When I came, the film had started.|We had lived there for ten years.|The train had left before we arrived at the station.|She had lost her keys before the exam.",
+"So / Neither":"So did I.|Neither do I.|So will I.|So am I.|Neither can he.|So does she.|Neither did they.|So have we.|Neither was I.|So can I.|Neither will she.|So were they.",
+"Relative Clause":"This is my friend who lives here.|I bought a car which was very expensive.|This is the cinema where we met.|The man who called you is my uncle.|She is the girl whose father is a doctor.|The book which I love is on the table.|This is the house where I was born.|I know the woman who lives next door.|The phone which he bought was expensive.|That is the boy whose bike was stolen.|The car I bought was very expensive.|The cinema where we met is closed.",
+"Passive Voice":"The room was cleaned yesterday.|The letter has been written.|The house is being built.|English is spoken here.|The window was broken by a boy.|The work will be finished tomorrow.|The cake is being baked now.|The homework had been done before dinner.|The door must be closed.|This room got cleaned.|The thief was caught last night.|The tasks have been done.",
+"Conditionals":"If you heat ice, it melts.|If you help me, we will go fishing.|If I had a million dollars, I would buy a house.|If it rains, we will stay at home.|If you had studied, you would have passed the exam.|If I were you, I would go there.|If you mix red and blue, you get purple.|If she comes, I will tell her.|If you came on time, we could go to the party.|If he had known, he would have helped.|If water freezes, it becomes ice.|If I see him, I will call you.",
+"Reported Speech":"Tom said that he wanted an ice-cream.|Tom asked where I had stayed.|Tom told me not to go out.|She said that she was tired.|He asked if I was coming.|Tom ordered me to open the door.|They said that they would come.|She asked whether we should go.|He told me to close the window.|Tom suggested going to the cinema.|Tom asked what time it was.|She said that she had finished her homework.",
+"Modal Perfect":"You should have studied hard.|I must have failed at the exam.|He couldn’t have taken the certificate.|She might have missed the bus.|You could have passed the exam.|I would have gone there.|They can’t have left already.|You needn’t have waited.|He should have called me.|We must have lost the way.|You shouldn’t have said that.|She may have forgotten the key.",
+"Wish sentences":"I wish it would rain.|I wish I had a million dollars.|I wish I had prepared hard.|I wish Tom were coming tomorrow.|I wish I could fly.|She wishes she had more time.|I wish I had studied harder.|He wishes he were taller.|I wish they would come.|We wish we had gone there.|I wish you were here.|She wishes it would stop raining.",
+"Mixed Conditionals":"If I were rich, I could have bought that house.|If I had gone to bed early, I would wake up early today.|If I had studied, I would be a teacher now.|If I had taken the medicine, I would feel better now.|If she had left earlier, she would be at home now.|If I were you, I would have called him yesterday.|If he had saved money, he would be rich today.|If we had booked tickets, we would be on the plane now.|If I weren’t busy, I would have gone yesterday.|If they had won, they would be happy now.|If I had eaten breakfast, I wouldn’t be hungry now.|If she were brave, she would have said it.",
+"Subjunctive":"Success be with you.|May God bless you!|It’s important that you should learn English.|It’s essential that he should come.|Dad says that we should look after little sis.|I demand that you should leave.|It’s strange that she should say that.|He insisted that we should stay.|May all your dreams come true!|The teacher advised that we should study more.|It’s great that you should help us.|My mom recommends that we should rest."
+};
+var orig=window.qM;
+function uget(){try{return JSON.parse(localStorage.getItem("gm_tused")||"{}")}catch(e){return{}}}
+function uset(o){try{localStorage.setItem("gm_tused",JSON.stringify(o))}catch(e){}}
+window.qM=function(t,n){n=n||3;var pool=P[t.n]?P[t.n].split("|"):(t.m||[]);if(!pool.length)return[];
+ var U=uget(),u=U[t.n]||[],free=[];for(var i=0;i<pool.length;i++)if(u.indexOf(i)<0)free.push(i);
+ if(free.length<n){u=[];free=pool.map(function(_,i){return i})}
+ var pick=shuf(free).slice(0,n);U[t.n]=u.concat(pick);uset(U);
+ return orig({n:t.n,m:pick.map(function(i){return pool[i]})})};
+})();
+</script>
+</body></html>
