@@ -117,7 +117,7 @@ const T0=[
 {n:"It’s time",lv:"B1",d:"Vaqt bo’ldi",
  f:["(+) darak|It’s time + to + V1|It’s time to go.","(+) kimdir uchun|It’s time + for + smb + to + V1|It’s time for Sam to read books.","(+) about time|It’s about time + for + smb + to + V1|It’s about time for us to stretch our legs."],
  r:["present → It is = It’s · past → It was = It’s"]},
-{n:"Present Perfect Continuous",lv:"B1",d:"Hozirgi tugallangan davomli zamon",subj:1,
+{n:"Present Perfect Continuous",lv:"B1",d:"Hozirgi tugallangan davomiy zamon",subj:1,
  f:["(+) darak|S + have/has + been + Ving|I’ve been working for 2 hours.","(−) inkor|S + have/has + not + been + Ving|I haven’t been working.","(?) savol|Have/Has + S + been + Ving?|Have you been waiting for me?"],
  u:["Ish-harakat o’tgan zamonda boshlanib hozirgacha davom qilib tugadi (tugamasligi ham mumkin), natijasi ko’rinadi|She has been cooking for 3 hours.","Alomat (am/is/are) → izohi Present Perfect Continuous|I am tired because I have been holding the chair for 2 hours."],
  r:["for — oraliq vaqt (2 hours, 3 days) · since — boshlangan vaqt (3 o’clock, Monday, 2020)","for / since = … dan beri","Natija: past ——→ present (o’tgandan hozirgacha davom etgan ish, natijasi hozir ko’rinadi)"],
@@ -352,7 +352,7 @@ async function showRank(){go("rank");const R=$("rk");
  if(!ME||!ME.on){R.innerHTML=`<div class="card">Reyting faqat internet va hisob bilan kirganda ko’rinadi.</div>`;return}
  R.innerHTML=`<div class="card">Yuklanmoqda…</div>`;
  try{const L=await lbGet(),me=L.findIndex(x=>x.id===UID);
-  R.innerHTML=`<div class="card"><h2>🏆 Reyting</h2><div class="sub">${me>=0?`Siz <b>${me+1}-o’rindasiz</b> (${L.length} ishtirokchidan) · ${ME.sc} ball`:"Reytingda hali yo’qsiz"}</div><div class="sub">1-urinishda to’g’ri javob +1, 2-urinishda +0.5, 3 va undan keyin 0 ball; har xato −1 ball.</div><div class="sc"><table><tr><th>#</th><th>Ism</th><th>✅</th><th>❌</th><th>Ball</th></tr>${L.map((x,i)=>`<tr${x.id===UID?` style="font-weight:700;color:var(--ac)"`:""}><td>${i+1}</td><td>${esc(x.name||"?")}</td><td>${x.c||0}</td><td>${x.w||0}</td><td>${fmt(x.sc||0)}</td></tr>`).join("")}</table></div><button id="rf" style="margin-top:10px;width:100%">🔄 Yangilash</button></div>`;$("rf").onclick=showRank}
+  R.innerHTML=`<div class="card"><h2>🏆 Reyting</h2><div class="sub">${me>=0?`Siz <b>${me+1}-o’rindasiz</b> (${L.length} ishtirokchidan) · ${ME.sc} ball`:"Reytingda hali yo’qsiz"}</div><div class="sub">1 ta mavzuning 1-urinishda to’g’ri javob +1, 2-urinishda +0.5, 3 va undan keyin 0 ball; har xato −1 ball.</div><div class="sc"><table><tr><th>#</th><th>Ism</th><th>✅</th><th>❌</th><th>Ball</th></tr>${L.map((x,i)=>`<tr${x.id===UID?` style="font-weight:700;color:var(--ac)"`:""}><td>${i+1}</td><td>${esc(x.name||"?")}</td><td>${x.c||0}</td><td>${x.w||0}</td><td>${fmt(x.sc||0)}</td></tr>`).join("")}</table></div><button id="rf" style="margin-top:10px;width:100%">🔄 Yangilash</button></div>`;$("rf").onclick=showRank}
  catch(e){R.innerHTML=`<div class="card">Reytingni yuklab bo’lmadi.</div>`}}
 $("rkb").onclick=()=>nav("");
 async function boot(){showGate();let sv=null;try{sv=JSON.parse(localStorage.getItem(MK)||"null")}catch(e){}
