@@ -25,8 +25,8 @@ input{width:100%;font:inherit;padding:12px;border-radius:10px;border:1px solid v
 .row{display:flex;gap:8px}.row button{flex:1}.hide{display:none}
 .tp{display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px}
 .sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.85rem}th,td{border-bottom:1px solid var(--bd);padding:6px 5px;text-align:left;white-space:nowrap}th{color:var(--mu)}tr.cl{cursor:pointer}
-input{-webkit-user-select:text;user-select:text}#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:.9rem;z-index:50;text-align:center;max-width:90%}</style></head><body><main>
-<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div id="toast" class="hide">Chiqish uchun orqaga tugmasini yana bir marta bosing</div><h1>📘 Grammatika mashqi</h1><div style="text-align:right;font-size:.75rem;line-height:1.3;color:var(--mu);margin-top:6px">Yaratuvchilar:<br><b style="color:var(--tx)">R. Mirjalol</b><br><b style="color:var(--tx)">Claude</b></div></div>
+input{-webkit-user-select:text;user-select:text}</style></head><body><main>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><h1>📘 Grammatika mashqi</h1><div style="text-align:right;font-size:.75rem;line-height:1.3;color:var(--mu);margin-top:6px">Yaratuvchilar:<br><b style="color:var(--tx)">R. Mirjalol</b><br><b style="color:var(--tx)">Claude</b></div></div>
 <section id="home"></section>
 <section id="topic" class="hide">
 <button id="bk" style="margin-bottom:10px">← Mavzular</button>
@@ -105,7 +105,7 @@ const T0=[
 {n:"Should / Had better / Ought to",lv:"A2",d:"Maslahat (should — 30%)",
  f:["(+) should|S + should + V1|You should start your own business.","(−) shouldn’t|S + should not + V1|You shouldn’t go there.","(+) had better|S + had better + V1|You had better go.","(−) had better not|S + had better not + V1|You had better not go there.","(+) ought to|S + ought to + V1|Residents ought to pass their taxes.","(+) be supposed to|S + am/is/are/was/were supposed to + V1|You are supposed to win the competition."],
  u:["Hozirgi zamonda maslahat (should)|You should start your own business.","Sifatli birikma: It’s + sifat + that + S + should + V1|It’s important that you should learn English.","Fe’lli birikma: S + verb + that + S + should + V1|My mom demands that we should clean these rooms.","If = should (agar)|If you should come us today, we will go fishing.","Had better — faqat present, yozishmada|You had better not go there.","Ought to — rasmiy nutqda, hujjatlarda|Residents ought to pass their taxes by October.","To be supposed to — kutilma|You were supposed to be here already."]},
-{n:"Future Continuous",lv:"A1",d:"Kelasi davomiy zamon",subj:1,
+{n:"Future Continuous",lv:"B1",d:"Kelasi davomiy zamon",subj:1,
  f:["(+) darak|S + will/shall + be + Ving|He will be sleeping at 8 tomorrow.","(−) inkor|S + will/shall + not + be + Ving|I won’t be working.","(?) savol|Will/Shall + S + be + Ving?|Will you be working?"],
  u:["Kelasi zamonda aniq bir paytda davom qilayotgan ish|He will be sleeping at 8 tomorrow.","Kelasi zamondagi reja uchun|I’ll be working in the garden at 10 tomorrow."]},
 {n:"May / Might",lv:"B1",d:"Ehtimol va ruxsat",
@@ -369,11 +369,6 @@ async function boot(){showGate();let sv=null;try{sv=JSON.parse(localStorage.getI
 window.addEventListener("online",async()=>{if(ME&&!ME.on&&await conn()&&auth.currentUser){try{if(await loadMe(auth.currentUser)){renderHome();refreshRank()}}catch(e){}}});
 /* ---------- himoya ---------- */
 ["copy","cut","contextmenu","selectstart","dragstart"].forEach(e=>document.addEventListener(e,ev=>{const t=ev.target&&ev.target.nodeType===3?ev.target.parentElement:ev.target;if(!(t&&t.closest&&t.closest("input")))ev.preventDefault()}));
-let lb=0,tt=0;try{history.pushState({g:1},"")}catch(e){}
-window.addEventListener("popstate",()=>{if(CUR!=="home")return;const n=Date.now();if(n-lb<2000){lb=0;history.back();return}
- lb=n;try{history.pushState({g:1},"")}catch(e){}
- $("toast").classList.remove("hide");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.add("hide"),2000)});
-window.addEventListener("beforeunload",e=>{if(["g","s"].some(p=>S[p]&&S[p].q&&S[p].log&&S[p].log.length&&S[p].i<S[p].q.length)){e.preventDefault();e.returnValue=""}});
 window.addEventListener("hashchange",route);renderHome();initDb();boot();
 </script></main><script>
 (function(){
