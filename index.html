@@ -49,7 +49,7 @@ const T0=[
  u:["Hozirgi zamondagi odatlarimiz va takroriy ishlar|I play football every day.","Tabiat hodisalari va faktlar|The sun rises in the east.","Jadvallar (aniq vaqt bilan)|My bus arrives at 2 pm."],
  s:"odatda=usually;ba’zan=sometimes;tez-tez=often;har doim=always;hech qachon=never;har kuni=every day;har oy=every month",
  p:["usually, sometimes, often, always, never|S + Signal Words + V1 (s/es)|He usually plays football.","every day, every month|S + V1 (s/es) + Signal Words|I play football every day."]},
-{n:"Present Continuous",lv:"A1",d:"Hozirgi davomli zamon",subj:1,
+{n:"Present Continuous",lv:"A1",d:"Hozirgi davomiy zamon",subj:1,
  f:["(+) darak|S + am/is/are + Ving|He is reading now.","(−) inkor|S + am/is/are + not + Ving|I am not watching TV.","(?) savol|Am/Is/Are + S + Ving?|Is he playing guitar?"],
  u:["Hozir davom etayotgan ish harakat|He is reading now.","Shu kunlarda bajarayotgan ish harakat|I am reading book these days.","Sifat o’zgarishi: S + am/is/are + becoming/getting + sifat|She is becoming kind."],
  s:"hozir=now/at the moment/at present;shu kunlarda=these days;kundan-kunga=day by day;qara!=look;tingla!=listen;jim bo’l=be quiet;tez bo’l=be quick/hurry up;ehtiyot bo’l=be careful;og’zingni yop=shut up",
@@ -77,7 +77,7 @@ const T0=[
  s:"ertaga=tomorrow;keyingi (vaqt)=next;keyinroq=later;ishonmoq=believe=+;o’ylamoq=think=+;umid qilmoq=hope/expect=+;ishonch hosil qilmoq=be sure/am sure/is sure/are sure/to be sure=+;balki, ehtimol=probably/perhaps/maybe=+;agar=if=B;bir marta (… bo’lsa)=once=B;… dan keyin=after=B;… dan oldin=before=B;… bilanoq=as soon as=B;… gacha (shart bilan)=so long as=B;mabodo=in case=B;… tufayli=in case of=B;… gacha (muddat tugaguncha)=until/till=B"},
 {n:"Some / Any",lv:"A1",d:"Some va any ishlatilishi",
  u:["Some — biroz, bir nechta (darak gap)|I have some apples.","Some — so’roq gapda faqat taklif ma’nosida|Would you like some tea?","Any — inkor va so’roq gapda: hech, hech qancha|I don’t have any money.","Any — darak gapda: xohlagan bir (ixtiyoriy)|You can take any book."]},
-{n:"Past Continuous",lv:"A2",d:"O’tgan davomli zamon (was — birlik, were — ko’plik)",subj:1,
+{n:"Past Continuous",lv:"A2",d:"O’tgan davomiy zamon (was — birlik, were — ko’plik)",subj:1,
  f:["(+) darak|S + was/were + Ving|She was cooking meal.","(−) inkor|S + was/were + not + Ving|I wasn’t doing my homework at 5 p.m.","(?) savol|Was/Were + S + Ving?|Were you eating meal at 5 p.m.?"],
  r:["was → I, he, she, it · were → you, we, they","wasn’t = was not · weren’t = were not"],
  u:["Aniq paytda davom etgan ish (at + vaqt)|She was cooking meal at 2 p.m.","Davr ichida bo’lgan ish (the whole / all + vaqt)|I was reading book the whole day.","when: S + was/were + Ving + when + S + V2|I was cooking meal when my brother watched TV.","while: S + was/were + Ving + while + S + was/were + Ving|I was working while my friends were playing volleyball.","as: As + S + was/were + Ving, S + V2|As I was cooking meal, I burnt my finger."],
@@ -105,7 +105,7 @@ const T0=[
 {n:"Should / Had better / Ought to",lv:"A2",d:"Maslahat (should — 30%)",
  f:["(+) should|S + should + V1|You should start your own business.","(−) shouldn’t|S + should not + V1|You shouldn’t go there.","(+) had better|S + had better + V1|You had better go.","(−) had better not|S + had better not + V1|You had better not go there.","(+) ought to|S + ought to + V1|Residents ought to pass their taxes.","(+) be supposed to|S + am/is/are/was/were supposed to + V1|You are supposed to win the competition."],
  u:["Hozirgi zamonda maslahat (should)|You should start your own business.","Sifatli birikma: It’s + sifat + that + S + should + V1|It’s important that you should learn English.","Fe’lli birikma: S + verb + that + S + should + V1|My mom demands that we should clean these rooms.","If = should (agar)|If you should come us today, we will go fishing.","Had better — faqat present, yozishmada|You had better not go there.","Ought to — rasmiy nutqda, hujjatlarda|Residents ought to pass their taxes by October.","To be supposed to — kutilma|You were supposed to be here already."]},
-{n:"Future Continuous",lv:"B1",d:"Kelasi davomli zamon",subj:1,
+{n:"Future Continuous",lv:"A1",d:"Kelasi davomli zamon",subj:1,
  f:["(+) darak|S + will/shall + be + Ving|He will be sleeping at 8 tomorrow.","(−) inkor|S + will/shall + not + be + Ving|I won’t be working.","(?) savol|Will/Shall + S + be + Ving?|Will you be working?"],
  u:["Kelasi zamonda aniq bir paytda davom qilayotgan ish|He will be sleeping at 8 tomorrow.","Kelasi zamondagi reja uchun|I’ll be working in the garden at 10 tomorrow."]},
 {n:"May / Might",lv:"B1",d:"Ehtimol va ruxsat",
@@ -316,7 +316,7 @@ function showRes(){go("results");const R=H.filter(x=>x.c+x.w>0).slice().reverse(
 $("bk").onclick=()=>nav("");$("rb").onclick=()=>nav("");$("mb").onclick=()=>nav("");
 document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>nav("t-"+b.dataset.t));$("tex").onclick=()=>nav("t-"+LEX);
 /* ---------- hisob va reyting ---------- */
-const TOPN=["Present Simple","Present Continuous",NEWN,"Past Simple","Past Continuous","Future Simple","Going to","Present Perfect Simple","Present Perfect Continuous","How long"];
+const TOPN=["Present Simple","Present Continuous",NEWN,"Past Simple","Past Continuous","Future Simple","Future Continuous","Going to","Present Perfect Simple","Present Perfect Continuous","How long"];
 const HL=()=>[...TOPN.map(n=>T.find(t=>t.n===n)),...ORD.flatMap(l=>T.filter(t=>t.lv===l&&!TOPN.includes(t.n)))];
 let ME=null,GATE=false,DBS=null,UID=null,MT=0;const MK="gm_me";
 const ONL=()=>!!(ME&&ME.on&&navigator.onLine);const fmt=x=>Math.round(x*10)/10;
